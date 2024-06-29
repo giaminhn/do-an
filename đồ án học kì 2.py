@@ -163,6 +163,70 @@ plt.title('Biểu đồ tròn')
 # Hiển thị biểu đồ
 plt.show()
 
+# Đọc dữ liệu từ bảng vào dataframe
+data = pd.read_csv("oto.csv")
+
+# Tách dữ liệu thành hai nhóm: xe điện và xe không sử dụng động cơ điện
+electric_vehicles = data[data["Battery Electric Vehicles (BEVs)"] == "Xe sử dụng pin điện"]
+hybrid_electric_vehicles = data[data["Plug-In Hybrid Electric Vehicles (PHEVs)"] == "Xe sử dụng nhiên liệu hybrid điện"]
+
+# Lấy số lượng xe của mỗi nhóm
+electric_vehicles_count = electric_vehicles["Battery Electric Vehicles (BEVs)"].values
+hybrid_electric_vehicles_count = hybrid_electric_vehicles["Plug-In Hybrid Electric Vehicles (PHEVs)"].values
+
+# Thực hiện kiểm định t-test độc lập
+t_statistic, p_value = ttest_ind(electric_vehicles_count, hybrid_electric_vehicles_count)
+
+# Hiển thị kết quả
+print("Thống kê t:", t_statistic)
+print("Giá trị p:", p_value)
+
+# Giải thích kết quả
+if p_value < 0.05:
+    print("Có sự khác biệt có ý nghĩa thống kê (α = 0.05) về số lượng xe giữa xe điện và xe không sử dụng động cơ điện.")
+else:
+    print("Không có sự khác biệt có ý nghĩa thống kê (α = 0.05) về số lượng xe giữa xe điện và hybrid điện.")
+#
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+# Đọc dữ liệu từ file
+data = pd.read_csv("oto.csv")
+
+
+# Tính toán tổng số xe điện và xe không điện
+total_electric_vehicles =data["Battery Electric Vehicles (BEVs)"].sum()
+total_hybrid_electric_vehicles = data["Plug-In Hybrid Electric Vehicles (PHEVs)"].sum()
+
+a =  int(total_hybrid_electric_vehicles)
+b= int(total_electric_vehicles)
+# Tính toán tỷ lệ xe điện và xe không điện
+electric_vehicle_ratio = (total_electric_vehicles )/ (total_electric_vehicles + total_hybrid_electric_vehicles)
+hybrid_electric_vehicle_ratio = total_hybrid_electric_vehicles /(total_electric_vehicles + total_hybrid_electric_vehicles)
+
+# Hiển thị tỷ lệ xe điện và xe không điện
+print("Tỷ lệ xe điện:", electric_vehicle_ratio)
+print("Tỷ lệ xe không điện:", hybrid_electric_vehicle_ratio)
+
+# Tính toán hệ số tương quan giữa số lượng xe điện và xe không điện
+correlation_coefficient = data["Battery Electric Vehicles (BEVs)"].corr(data["Plug-In Hybrid Electric Vehicles (PHEVs)"])
+
+# Hiển thị hệ số tương quan
+print("Hệ số tương quan:", correlation_coefficient)
+# Tạo mô hình hồi quy tuyến tính
+model = LinearRegression()
+
+# Huấn luyện mô hình
+model.fit(data[["Battery Electric Vehicles (BEVs)"]], data["Plug-In Hybrid Electric Vehicles (PHEVs"])
+
+# Dự đoán số lượng xe điện dựa trên số lượng xe không điện
+predicted_electric_vehicles = model.predict([[4026]])
+
+# Hiển thị kết quả dự đoán
+print("Số lượng xe điện dự đoán:", predicted_electric_vehicles[0])
+
+
 
 
 
